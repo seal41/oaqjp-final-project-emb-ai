@@ -29,6 +29,9 @@ def sent_detector():
     # Pass the text to the emotion detector function and store the response
     response = emotion_detector(text_to_analyze)
 
+    if response['dominant_emotion'] is None:
+      return "Error"        
+
     # Jetzt wandelst du das Dictionary in den gewünschten String um
     formatted_string = format_emotion_response(response)
 

@@ -17,21 +17,32 @@ def emotion_detector(text_to_analyse):
     # Parsing the JSON response from the API
     data = json.loads(response.text)
 
-    # Emotionen extraction
-    emotions = data['emotionPredictions'][0]['emotion']
+    if response.status_code == 400:
+        result = {
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
+            }
+    elif response.status_code == 200:
+
+        # Emotionen extraction
+        emotions = data['emotionPredictions'][0]['emotion']
     
-    # find dominant emotion 
-    dominant_emotion = max(emotions, key=emotions.get)
-    
-    # create Result Dictionary
-    result = {
-        'anger': emotions['anger'],
-        'disgust': emotions['disgust'],
-        'fear': emotions['fear'],
-        'joy': emotions['joy'],
-        'sadness': emotions['sadness'],
-        'dominant_emotion': dominant_emotion
-    }
+        # find dominant emotion 
+        dominant_emotion = max(emotions, key=emotions.get)
+   
+        # create Result Dictionary
+        result = {
+            'anger': emotions['anger'],
+            'disgust': emotions['disgust'],
+            'fear': emotions['fear'],
+            'joy': emotions['joy'],
+            'sadness': emotions['sadness'],
+            'dominant_emotion': dominant_emotion
+        }
 
     # Returning a dictionary containing emotion detection  results
     return result
